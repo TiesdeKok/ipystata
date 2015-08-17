@@ -158,7 +158,7 @@ class iPyStataMagic(Magics):
             myfile.write('\n' + 'quietly cd "%s"' % self._lib_dir + '\n')
             myfile.write('\n' + 'log close' + '\n')
             if args.output:
-                myfile.write(r'saveold "data_output.dta", replace ' + '\n')
+                myfile.write(r'saveold "data_output.dta", replace ' + '\n') 
             myfile.write("\n" + "// End of line deletion prevention")
         
         if args.openstata:
@@ -167,13 +167,14 @@ class iPyStataMagic(Magics):
             cmd = [stata, '/e', "do", 'code.do']
         
         try:
-            ret_val=subprocess.Popen(cmd).pid
+            p = subprocess.Popen(cmd)
+            p.communicate()
         except:
             return "Failed to open Stata"
         
         sleep(1)
         out = iPyStata.process_log('log_output.log')
-        
+
         if args.output:
             try:
                 output_ipys = pd.read_stata(r'data_output.dta').drop('index', axis=1)
