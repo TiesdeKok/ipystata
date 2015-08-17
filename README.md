@@ -84,7 +84,7 @@ For debugging or inspection purposes it is possible to force the Stata window to
 Syntax Highlighting
 ===================
 
-Experimental support for Stata syntax highlighting is included. CodeMirror does not have a Stata mode, hence the R mode is modified to accomodate Stata code. Instructions to use: 
+Experimental support for Stata syntax highlighting is included. CodeMirror does not have a Stata mode, hence the R mode is modified to accomodate Stata code. Setup instructions are below:
 
 Find your IPython package installation folder. For example:
 
@@ -100,3 +100,9 @@ Create a new folder in the "mode" folder called 'stata'
     \IPython\html\static\components\codemirror\mode\stata
     
 Copy **stata.js** from the ipystata folder (see Github) into the newly created 'stata' folder.
+
+Special mentions
+================
+
+This project is inspired by and based on the excelent work of:  
+Rpy2 (https://pypi.python.org/pypi/rpy2) and Fortran Magic (https://pypi.python.org/pypi/fortran-magic)
