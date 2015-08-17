@@ -22,7 +22,8 @@ Dependencies
 ============
 
 IPython 3 (Not yet tested in IPython 4) (http://ipython.org/)  
-Pandas (http://pandas.pydata.org/)                                   
+Pandas (http://pandas.pydata.org/)  
+Stata (http://www.stata.com/)
 
 
 Basic instructions
@@ -106,3 +107,7 @@ Special mentions
 
 This project is inspired by and based on the excelent work of:  
 Rpy2 (https://pypi.python.org/pypi/rpy2) and Fortran Magic (https://pypi.python.org/pypi/fortran-magic)
+
+Disclaimer
+==========
+This project is not affiliated with or endorsed by Statacorp.
