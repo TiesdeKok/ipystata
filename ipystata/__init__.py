@@ -1,0 +1,1 @@
+import ipystata_magic
