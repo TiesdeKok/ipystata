@@ -21,7 +21,7 @@ You can install or upgrade via pip:
 Dependencies
 ============
 
-IPython 3 (Not yet tested in IPython 4) (http://ipython.org/)
+IPython 3 (Not yet tested in IPython 4) (http://ipython.org/)  
 Pandas (http://pandas.pydata.org/)                                   
 
 
