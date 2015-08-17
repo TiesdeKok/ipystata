@@ -3,7 +3,7 @@
 Enables the use of Stata cell magic in Jupyter (IPython) Notebooks.
 
 Allows the user to write and execute Stata code from within a Jupyer Notebook.  
-Interaction with Stata is accomplished through the batch mode of Stata. The code contained in a %%stata cell are send to Stata via a temporary ‘.do’ file, the Stata output is captured via ‘.log’ files and datasets are transferred by converting Pandas dataframes to ‘.dta’ files and vice-versa. All intermediate files are stored in the ‘.ipython/stata’ directory. 
+Interaction with Stata is accomplished through the batch mode of Stata. The code contained in a %%stata cell is send to Stata via a temporary ‘.do’ file, the Stata output is captured via ‘.log’ files and datasets are transferred by converting Pandas dataframes to ‘.dta’ files and vice-versa. All intermediate files are stored in the ‘.ipython/stata’ directory. 
 
 
 **Author:**   Ties de Kok <t.c.j.dekok@tilburguniversity.edu>  
