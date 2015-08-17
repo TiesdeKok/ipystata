@@ -80,3 +80,23 @@ For debugging or inspection purposes it is possible to force the Stata window to
 
     -os --openstata  
     In[1]: %%stata -os  
+
+Syntax Highlighting
+===================
+
+Experimental support for Stata syntax highlighting is included. CodeMirror does not have a Stata mode, hence the R mode is modified to accomodate Stata code. Instructions to use: 
+
+Find your IPython package installation folder. For example:
+
+    C:\Users\*User*\AppData\Local\Enthought\Canopy\User\Lib\site-packages\IPython
+    C:\Users\*User*\Anaconda\Lib\site-packages\IPython
+
+In this IPython folder go to:
+
+    \IPython\html\static\components\codemirror\mode
+    
+Create a new folder in the "mode" folder called 'stata'
+
+    \IPython\html\static\components\codemirror\mode\stata
+    
+Copy **stata.js** from the ipystata folder (see Github) into the newly created 'stata' folder.
