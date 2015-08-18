@@ -18,13 +18,13 @@ import os
 import re
 
 class iPyStata:
-    def __init__(self):        
+    def __init__(self):
         self._config_dir = os.path.join(get_ipython_cache_dir(), 'stata', 'config')
         self._config_file = os.path.join(self._config_dir, 'configuration.ini')
-        
+
         self.Config = ConfigParser.ConfigParser()
         self.Config.read(self._config_file)
-        
+
         if not os.path.exists(self._config_dir):
             os.makedirs(self._config_dir)
         if not os.path.isfile(self._config_file):
@@ -51,7 +51,7 @@ class iPyStata:
         with open(self._config_file, 'w') as configfile:
             self.Config.write(configfile)
         self.Config.read(self._config_file)
-        
+
     def process_log(self, log):
         with open(log) as f:
             code = f.read()
@@ -66,44 +66,44 @@ class iPyStata:
         code = re.sub('^-*\\n', "", code)
         code = re.sub('-*\\n$', "", code)
         return code
-        
+
 iPyStata = iPyStata()
 
 @magics_class
 class iPyStataMagic(Magics):
-    
+
     def __init__(self, shell):
         super(iPyStataMagic, self).__init__(shell)
         self._lib_dir = os.path.join(get_ipython_cache_dir(), 'stata')
         if not os.path.exists(self._lib_dir):
             os.makedirs(self._lib_dir)
-                
+
     @magic_arguments()
-    
+
     @argument('-i', '--input', action='append', help='This is an input argument.')
     @argument('-d', '--data', help='This is the data input argument.')
     @argument('-o', '--output', help='This is the output argument.')
     @argument('-np', '--noprint', action='store_true', default=False, help='Force the magic to not return an output.')
     @argument('-os', '--openstata', action='store_true', default=False, help='Open Stata.')
-    
-    @needs_local_scope    
+
+    @needs_local_scope
     @cell_magic
     def stata(self, line, cell, local_ns=None):
-        
+
         old_cwd = os.getcwdu() if sys.version_info[0] == 2 else os.getcwd()
         os.chdir(self._lib_dir)
-        
+
         def stata_list(l):
             return ' '.join(l)
 
         args = parse_argstring(self.stata, line)
-        
+
         if local_ns is None:
             local_ns = {}
-        
+
         stata_lists = []
         name_list = []
-        
+
         if args.input:
             for input in ','.join(args.input).split(','):
                 try:
@@ -118,7 +118,7 @@ class iPyStataMagic(Magics):
                     name_list.append(input)
                 else:
                     pass
-                
+
         if args.data:
             data = args.data
             try:
@@ -137,15 +137,15 @@ class iPyStataMagic(Magics):
                     else:
                         pass
                 if date_var:
-                    val.to_stata(r'data_input.dta', convert_dates= {x:'tc' for x in date_var}) 
+                    val.to_stata(r'data_input.dta', convert_dates= {x:'tc' for x in date_var}, write_index=False)
                 else:
-                    val.to_stata(r'data_input.dta')            
+                    val.to_stata(r'data_input.dta', write_index=False)
             else:
                 pass
-                
+
         stata = iPyStata.ConfigSectionMap("Stata configuration")['installation']
-        tmp_path='.'    
-        
+        tmp_path='.'
+
         with open("code.do", "w") as myfile:
             myfile.write("clear" + "\n" + "set more off"+ "\n" + 'set linesize 200' + "\n")
             for x,y in zip(name_list, stata_lists):
@@ -158,37 +158,41 @@ class iPyStataMagic(Magics):
             myfile.write('\n' + 'quietly cd "%s"' % self._lib_dir + '\n')
             myfile.write('\n' + 'log close' + '\n')
             if args.output:
-                myfile.write(r'saveold "data_output.dta", replace ' + '\n') 
+                myfile.write(r'saveold "data_output.dta", replace ' + '\n')
             myfile.write("\n" + "// End of line deletion prevention")
-        
+
         if args.openstata:
             cmd = [stata, "do", 'code.do']
         else:
             cmd = [stata, '/e', "do", 'code.do']
-        
+
         try:
             p = subprocess.Popen(cmd)
             p.communicate()
         except:
             return "Failed to open Stata"
-        
+
         sleep(1)
         out = iPyStata.process_log('log_output.log')
 
         if args.output:
             try:
-                output_ipys = pd.read_stata(r'data_output.dta').drop('index', axis=1)
-                self.shell.push({args.output: output_ipys })
+                output_ipys = pd.read_stata(r'data_output.dta')
+                try:
+                    output_ipys.drop('index', axis=1, inplace=True)
+                    self.shell.push({args.output: output_ipys })
+                except:
+                    self.shell.push({args.output: output_ipys })
             except:
-                print("Exception has occured.")
-    
+                print("Exception has occured. File could not be loaded.")
+
         os.chdir(old_cwd)
-        
+
         if not args.noprint:
             return print(out)
         else:
             return
-        
+
 # Register the magic function:
 ip = get_ipython()
 ip.register_magics(iPyStataMagic)

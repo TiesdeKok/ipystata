@@ -3,13 +3,19 @@
 Enables the use of Stata cell magic in Jupyter (IPython) Notebooks.
 
 Allows the user to write and execute Stata code from within a Jupyer Notebook.  
-Interaction with Stata is accomplished through the batch mode of Stata. The code contained in a %%stata cell is send to Stata via a temporary ‘.do’ file, the Stata output is captured via ‘.log’ files and datasets are transferred by converting Pandas dataframes to ‘.dta’ files and vice-versa. All intermediate files are stored in the ‘.ipython/stata’ directory. 
+Interaction with Stata is accomplished through the batch mode of Stata. The code contained in a %%stata cell is send to Stata via a temporary ‘.do’ file, the Stata output is captured via ‘.log’ files and datasets are transferred by converting Pandas dataframes to ‘.dta’ files and vice-versa. All intermediate files are stored in the ‘.ipython/stata’ directory.
 
 
 **Author:**   Ties de Kok <t.c.j.dekok@tilburguniversity.edu>  
+**Twitter:** @TiesdeKok <https://twitter.com/TiesdeKok/>  
 **Homepage:**    https://github.com/TiesdeKok/ipystata  
 **PyPi:** https://pypi.python.org/pypi/ipystata  
-**Documentation:** Work-in-Progress  
+**Documentation:** Work-in-Progress
+
+Let me know what you think!
+==============
+
+If you have tips, comments, feedback or just want to say hello, feel free to contact me via email or twitter (@TiesdeKok).
 
 Install
 =======
@@ -17,7 +23,7 @@ Install
 You can install or upgrade via pip:  
 
     pip install ipystata
-    
+
 Dependencies
 ============
 
@@ -34,23 +40,23 @@ One initial configuration step is required to define your installation of Stata 
     In[1]: import ipystata
     In[2]: from ipystata.ipystata_magic import iPyStata  
     In[3]: iPyStata.config_stata('Path to your Stata executable')  
-  
+
 For example:
 
     In[1]: import ipystata  
     In[2]: from ipystata.ipystata_magic import iPyStata  
     In[3]: iPyStata.config_stata('C:\Program Files (x86)\Stata13\StataMP-64.exe')  
-  
-The configuration will be saved and is thus only required to be performed once at initial use. 
 
-IPyStata is imported and loaded using "import ipystata". A cell with Stata code is started with the cell magic "%%stata". 
+The configuration will be saved and is thus only required to be performed once at initial use.
+
+IPyStata is imported and loaded using "import ipystata". A cell with Stata code is started with the cell magic "%%stata".
 
 For example:
 
     In[1]: import ipystata  
     In[2]: %%stata  
            display "Hello, I am printed in Stata."  
-         
+
 
 Arguments
 ==========
@@ -59,12 +65,12 @@ Send a Pandas dataframe to be used in Stata:
 
     -d --data  
     In[1]: %%stata -d dataframe  
-  
+
 Return the dataset from Stata after code execution and load it into a Pandas dataframe:  
 
     -o --output  
     In[1]: %%stata -o dataframe  
-  
+
 Input Python lists and load them into Stata as macros:  
 
     -i --input  
@@ -95,11 +101,11 @@ Find your IPython package installation folder. For example:
 In this IPython folder go to:
 
     \IPython\html\static\components\codemirror\mode
-    
+
 Create a new folder in the "mode" folder called 'stata'
 
     \IPython\html\static\components\codemirror\mode\stata
-    
+
 Copy **stata.js** from the ipystata folder (see Github) into the newly created 'stata' folder.
 
 Special mentions
