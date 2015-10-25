@@ -10,7 +10,7 @@ Interaction with Stata is accomplished through the batch mode of Stata. The code
 **Twitter:** @TiesdeKok <https://twitter.com/TiesdeKok/>  
 **Homepage:**    https://github.com/TiesdeKok/ipystata  
 **PyPi:** https://pypi.python.org/pypi/ipystata  
-**Documentation:** Work-in-Progress
+**Documentation:** http://nbviewer.ipython.org/github/TiesdeKok/ipystata/blob/master/ipystata/Example.ipynb
 
 Let me know what you think!
 ==============
@@ -34,6 +34,8 @@ Stata (http://www.stata.com/)
 
 Basic instructions
 ==================
+
+For an example notebook see: http://nbviewer.ipython.org/github/TiesdeKok/ipystata/blob/master/ipystata/Example.ipynb
 
 One initial configuration step is required to define your installation of Stata by running:  
 
