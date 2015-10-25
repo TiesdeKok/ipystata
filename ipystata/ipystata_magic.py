@@ -1,4 +1,12 @@
 from __future__ import print_function
+import sys
+py3 = sys.version_info > (3,)
+
+if not py3:
+    import ConfigParser
+else:
+    import configparser
+
 from IPython.core.magic import (Magics, magics_class, line_magic,
                                 cell_magic, line_cell_magic, needs_local_scope)
 from IPython.core.magic_arguments import (argument, magic_arguments,
@@ -10,7 +18,6 @@ from IPython.utils.path import get_ipython_cache_dir
 
 from time import sleep
 
-import ConfigParser
 import pandas as pd
 import sys
 import subprocess
@@ -21,8 +28,10 @@ class iPyStata:
     def __init__(self):
         self._config_dir = os.path.join(get_ipython_cache_dir(), 'stata', 'config')
         self._config_file = os.path.join(self._config_dir, 'configuration.ini')
-
-        self.Config = ConfigParser.ConfigParser()
+        if py3:
+            self.Config = configparser.ConfigParser()
+        else:
+            self.Config = ConfigParser.ConfigParser()
         self.Config.read(self._config_file)
 
         if not os.path.exists(self._config_dir):
