@@ -4,8 +4,8 @@ Enables the use of Stata together with Python via Jupyter (IPython) notebooks.
 
 Allows the user to write and execute Stata code from within a Jupyter (IPython) Notebook.  See the example notebook below for an illustration of the functionality. 
 
-**Author:**   Ties de Kok *(t.c.j.dekok@tilburguniversity.edu)*
-**Twitter:** [@TiesdeKok](https://twitter.com/TiesdeKok/)
+**Author:**   Ties de Kok *(t.c.j.dekok@tilburguniversity.edu)*  
+**Twitter:** [@TiesdeKok](https://twitter.com/TiesdeKok/)  
 **Homepage:**    https://github.com/TiesdeKok/ipystata  
 **PyPi:** https://pypi.python.org/pypi/ipystata  
 **Documentation:** [**basic instructions**](#basic-instructions) or [**example notebook**](http://nbviewer.ipython.org/github/TiesdeKok/ipystata/blob/master/ipystata/Example.ipynb)
