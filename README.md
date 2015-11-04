@@ -12,8 +12,12 @@ Allows the user to write and execute Stata code from within a Jupyter (IPython) 
 
 ## Practical information:
 
-####**You can install or upgrade via pip:**
+####**You can install IPyStata 0.2.0 using:**
 
+    pip install git+https://github.com/TiesdeKok/ipystata
+    
+####**Or you can install IPyStata 0.1.4 using:**    
+    
     pip install ipystata
   
 ####**Register your Stata instance**
