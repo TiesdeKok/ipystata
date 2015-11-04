@@ -12,7 +12,7 @@ Allows the user to write and execute Stata code from within a Jupyter (IPython) 
 
 ## Practical information:
 
-####**You can install or upgrade via pip: **
+####**You can install or upgrade via pip:**
 
     pip install ipystata
   
@@ -39,7 +39,7 @@ Recent version of Stata (13 / 14 preferably) (http://www.stata.com/)
 Make sure that you have a registered Stata instance ([instructions](#register-your-stata-instance))!
 
 You can use IPyStata using the `%%stata` cell magic. 
-See the [**basic instructions**](#basic_instructions) below or the [**example notebook**](http://nbviewer.ipython.org/github/TiesdeKok/ipystata/blob/master/ipystata/Example.ipynb).
+See the [**basic instructions**](#basic-instructions) below or the [**example notebook**](http://nbviewer.ipython.org/github/TiesdeKok/ipystata/blob/master/ipystata/Example.ipynb).
 
 Note that all intermediate files are stored in the ‘.ipython/stata’ directory.
 Several options are included to manage your sessions, see the [**session manager**](#session-manager) section.
