@@ -83,6 +83,7 @@ After a discussion with James Fielder I decided to overhaul my initial code to h
 > - Add an option for non-Windows users that uses the batch mode functionality.
 > - Explore the possibilities of asynchronous Stata code execution using different sessions. 
 > - Improve Stata syntax highlighting.
+> - Add plot support to IPyStata.
 
 
 ## Basic instructions
