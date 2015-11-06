@@ -31,12 +31,14 @@ Go to your Stata installation directory and either:
 Look up the name of your Stata executable (e.g. `StataMP-64.exe`) and in your command window type:
 `StataMP-64.exe /Register`
 
+**If you get a com error when using IPyStata it means that the registration was unsuccesful.  
+**A potential solution is to run the CMD window as administrator.**  
 Note that this is independent of IPyStata, if you have done it before there is no need to do it again. 
 For more detailed instructions see [this page](http://www.stata.com/automation/#createmsapp).
   
 ####**Dependencies**
 IPython 3 (Not yet tested in IPython 4) (http://ipython.org/)  
-Pandas **0.17.x +** (http://pandas.pydata.org/)  (I recommend to use a distribution like Anaconda)
+Pandas **0.17.x +** (http://pandas.pydata.org/) (I recommend to use a distribution like Anaconda)  
 Recent version of Stata (13 / 14 preferably) (http://www.stata.com/)
 
 ####**How to use?**
