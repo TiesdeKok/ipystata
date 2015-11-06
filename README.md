@@ -12,7 +12,7 @@ Allows the user to write and execute Stata code from within a Jupyter (IPython) 
 
 ## Practical information:
 
-####**You can install IPyStata 0.2.0 using:**
+####**You can install IPyStata 0.2.1 using:**
 
     pip install git+https://github.com/TiesdeKok/ipystata
     
@@ -76,6 +76,7 @@ After a discussion with James Fielder I decided to overhaul my initial code to h
 >  - Fixed inconsistent white spaces at the begin / end of output. 
 > - Internal file-handling changed to using absolute paths, working directory functionality is now explicitly included in the -cwd argument. 
 > - Package is compatible for both Python 2.7.x and Python 3.x.
+> - **Plots are now supported using the `-gr` or `--graph` arguments (added in 0.2.1)**
 >
 > **Todo:**
 > 
@@ -83,7 +84,6 @@ After a discussion with James Fielder I decided to overhaul my initial code to h
 > - Add an option for non-Windows users that uses the batch mode functionality.
 > - Explore the possibilities of asynchronous Stata code execution using different sessions. 
 > - Improve Stata syntax highlighting.
-> - Add plot support to IPyStata.
 
 
 ## Basic instructions
@@ -130,7 +130,12 @@ Input Python lists and load them into Stata as macros:
     In[1]: example_list = ['var_1', 'var_2']  
     In[2]: %%stata -i example_list  
            display "`example_list'"
-           
+
+If you want a Stata graph as an output of a IPyStata cell you can use the following argument (**New in 0.2.1**):
+
+    -gr --graph  
+    In[1]: %%stata -gr 
+    
 Retrieve user-defined macros from Stata into the following Python dictionary `macro_dict` (**New in 0.2**): 
 
     -gm --getmacro    
