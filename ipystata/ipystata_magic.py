@@ -12,7 +12,15 @@ from IPython.core.magic import (Magics, magics_class, line_magic,
 from IPython.core.magic_arguments import (argument, magic_arguments,
     parse_argstring)
 from IPython.core import display
-from IPython.utils.path import get_ipython_cache_dir
+from IPython.display import Image
+
+from IPython import version_info
+if version_info[0] < 4:
+    from IPython.utils.path import get_ipython_cache_dir
+else:
+    from IPython.paths import get_ipython_cache_dir
+
+
 
 import time
 import pandas as pd
@@ -152,6 +160,7 @@ class iPyStataMagic(Magics):
     @argument('-s', '--session', default='main', help='The name of a Stata session in which the cell has to be executed.')
     @argument('-cwd', '--changewd', action='store_true', default=False, help='Set the current Python working directory in Stata session.')
     @argument('-gm', '--getmacro', action='append', help='This will attempt to output the named macro values as a dictionary.')
+    @argument('-gr', '--graph', action='store_true', default=False, help='This will classify the Stata cell as one that returns a graph.')
 
     @needs_local_scope
     @cell_magic
@@ -332,6 +341,7 @@ class iPyStataMagic(Magics):
             ## Note, combination is to simplify log handling (only one log output has to be processed).
 
         data_out = os.path.join(self._lib_dir, 'data_output.dta')
+        graph_out = os.path.join(self._lib_dir, 'temp_graph.png')
         code_list = []
         for x,y in zip(name_list, stata_lists):
             code_list.append("local "+ x + ' ' + y + "\n")
@@ -343,6 +353,8 @@ class iPyStataMagic(Magics):
         code_list.append(cell)
         if args.output:
             code_list.append('quietly save "%s", replace ' % data_out + "\n")
+        if args.graph:
+            code_list.append('quietly graph export "%s", replace width(1000) height(800) ' % graph_out + "\n")
         code_txt= '\n'.join(code_list)
 
         ## Execute code and wait for the Stata session to finish.
@@ -393,7 +405,15 @@ class iPyStataMagic(Magics):
             pid_text.write(','.join(map(str, self.pid_list)))
 
         if not args.noprint:
-            return print(out)
+            if args.graph:
+                if not len(out) < 5:
+                    print(out)
+                if re.search('could not find Graph window', out, flags=re.I) is None:
+                    return Image(graph_out, retina=True)
+                else:
+                    print('\nNo graph displayed, could not find one generated in this cell.')
+            else:
+                return print(out)
         else:
             return
 

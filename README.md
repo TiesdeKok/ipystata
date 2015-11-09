@@ -4,16 +4,20 @@ Enables the use of Stata together with Python via Jupyter (IPython) notebooks.
 
 Allows the user to write and execute Stata code from within a Jupyter (IPython) Notebook.  See the example notebook below for an illustration of the functionality. 
 
-**Author:**   Ties de Kok *(t.c.j.dekok@tilburguniversity.edu)*
-**Twitter:** [@TiesdeKok](https://twitter.com/TiesdeKok/)
+**Author:**   Ties de Kok *(t.c.j.dekok@tilburguniversity.edu)*  
+**Twitter:** [@TiesdeKok](https://twitter.com/TiesdeKok/)  
 **Homepage:**    https://github.com/TiesdeKok/ipystata  
 **PyPi:** https://pypi.python.org/pypi/ipystata  
 **Documentation:** [**basic instructions**](#basic-instructions) or [**example notebook**](http://nbviewer.ipython.org/github/TiesdeKok/ipystata/blob/master/ipystata/Example.ipynb)
 
 ## Practical information:
 
-####**You can install or upgrade via pip: **
+####**You can install IPyStata 0.2.2 using:**
 
+    pip install git+https://github.com/TiesdeKok/ipystata
+    
+####**Or you can install IPyStata 0.1.4 using:**    
+    
     pip install ipystata
   
 ####**Register your Stata instance**
@@ -21,25 +25,27 @@ Go to your Stata installation directory and either:
 
 -  Shift + Right-Click --> click "*Open command window here*"
 **or** 
-- Open command window (search for "*cmd*") and type: 
-`cd C:\Program Files (x86)\Stata14`      (Obviously change it to your Stata directory)
+- Open command window (search for "*cmd*") and type:  
+`cd C:\Program Files (x86)\Stata14`      (Obviously change it to your Stata directory)  
 
-Look up the name of your Stata executable (e.g. `StataMP-64.exe`) and in your command window type:
+Look up the name of your Stata executable (e.g. `StataMP-64.exe`) and in your command window type:  
 `StataMP-64.exe /Register`
 
-Note that this is independent of IPyStata, if you have done it before there is no need to do it again. 
+**If you get a com error when using IPyStata it means that the registration was unsuccesful.  
+**A potential solution is to run the CMD window as administrator.**  
+Note that this is independent of IPyStata, if you have done it before there is no need to do it again.  
 For more detailed instructions see [this page](http://www.stata.com/automation/#createmsapp).
   
 ####**Dependencies**
-IPython 3 (Not yet tested in IPython 4) (http://ipython.org/)  
-Pandas **0.17.x +** (http://pandas.pydata.org/)  (I recommend to use a distribution like Anaconda)
-Recent version of Stata (13 / 14 preferably) (http://www.stata.com/)
+IPython 3 or 4 (http://ipython.org/)  
+Pandas **0.17.x +** (http://pandas.pydata.org/) (I recommend to use a distribution like Anaconda)  
+Recent version of Stata (13 / 14 preferably) (http://www.stata.com/)  
 
 ####**How to use?**
 Make sure that you have a registered Stata instance ([instructions](#register-your-stata-instance))!
 
 You can use IPyStata using the `%%stata` cell magic. 
-See the [**basic instructions**](#basic_instructions) below or the [**example notebook**](http://nbviewer.ipython.org/github/TiesdeKok/ipystata/blob/master/ipystata/Example.ipynb).
+See the [**basic instructions**](#basic-instructions) below or the [**example notebook**](http://nbviewer.ipython.org/github/TiesdeKok/ipystata/blob/master/ipystata/Example.ipynb).
 
 Note that all intermediate files are stored in the ‘.ipython/stata’ directory.
 Several options are included to manage your sessions, see the [**session manager**](#session-manager) section.
@@ -70,10 +76,11 @@ After a discussion with James Fielder I decided to overhaul my initial code to h
 >  - Fixed inconsistent white spaces at the begin / end of output. 
 > - Internal file-handling changed to using absolute paths, working directory functionality is now explicitly included in the -cwd argument. 
 > - Package is compatible for both Python 2.7.x and Python 3.x.
+> - **Plots are now supported using the `-gr` or `--graph` arguments (added in 0.2.1)**
+> - **Both IPython 3 and IPython 4 are now supported (added in 0.2.2)**
 >
 > **Todo:**
 > 
-> - Compatibility with IPython 4 (Jupyter).
 > - Add an option for non-Windows users that uses the batch mode functionality.
 > - Explore the possibilities of asynchronous Stata code execution using different sessions. 
 > - Improve Stata syntax highlighting.
@@ -123,7 +130,12 @@ Input Python lists and load them into Stata as macros:
     In[1]: example_list = ['var_1', 'var_2']  
     In[2]: %%stata -i example_list  
            display "`example_list'"
-           
+
+If you want a Stata graph as an output of a IPyStata cell you can use the following argument (**New in 0.2.1**):
+
+    -gr --graph  
+    In[1]: %%stata -gr 
+    
 Retrieve user-defined macros from Stata into the following Python dictionary `macro_dict` (**New in 0.2**): 
 
     -gm --getmacro    
