@@ -12,7 +12,11 @@ Allows the user to write and execute Stata code from within a Jupyter (IPython) 
 
 ## Practical information:
 
+<<<<<<< HEAD
 ####**You can install IPyStata 0.2.2 using:**
+=======
+####**You can install IPyStata 0.2.1 using:**
+>>>>>>> origin/master
 
     pip install git+https://github.com/TiesdeKok/ipystata
     
@@ -33,6 +37,7 @@ Look up the name of your Stata executable (e.g. `StataMP-64.exe`) and in your co
 
 **If you get a com error when using IPyStata it means that the registration was unsuccesful.  
 **A potential solution is to run the CMD window as administrator.**  
+<<<<<<< HEAD
 Note that this is independent of IPyStata, if you have done it before there is no need to do it again.  
 For more detailed instructions see [this page](http://www.stata.com/automation/#createmsapp).
   
@@ -40,6 +45,15 @@ For more detailed instructions see [this page](http://www.stata.com/automation/#
 IPython 3 or 4 (http://ipython.org/)  
 Pandas **0.17.x +** (http://pandas.pydata.org/) (I recommend to use a distribution like Anaconda)  
 Recent version of Stata (13 / 14 preferably) (http://www.stata.com/)  
+=======
+Note that this is independent of IPyStata, if you have done it before there is no need to do it again. 
+For more detailed instructions see [this page](http://www.stata.com/automation/#createmsapp).
+  
+####**Dependencies**
+IPython 3 (Not yet tested in IPython 4) (http://ipython.org/)  
+Pandas **0.17.x +** (http://pandas.pydata.org/) (I recommend to use a distribution like Anaconda)  
+Recent version of Stata (13 / 14 preferably) (http://www.stata.com/)
+>>>>>>> origin/master
 
 ####**How to use?**
 Make sure that you have a registered Stata instance ([instructions](#register-your-stata-instance))!
@@ -77,7 +91,10 @@ After a discussion with James Fielder I decided to overhaul my initial code to h
 > - Internal file-handling changed to using absolute paths, working directory functionality is now explicitly included in the -cwd argument. 
 > - Package is compatible for both Python 2.7.x and Python 3.x.
 > - **Plots are now supported using the `-gr` or `--graph` arguments (added in 0.2.1)**
+<<<<<<< HEAD
 > - **Both IPython 3 and IPython 4 are now supported (added in 0.2.2)**
+=======
+>>>>>>> origin/master
 >
 > **Todo:**
 > 

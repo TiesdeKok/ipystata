@@ -12,6 +12,7 @@ from IPython.core.magic import (Magics, magics_class, line_magic,
 from IPython.core.magic_arguments import (argument, magic_arguments,
     parse_argstring)
 from IPython.core import display
+<<<<<<< HEAD
 from IPython.display import Image
 
 from IPython import version_info
@@ -21,6 +22,10 @@ else:
     from IPython.paths import get_ipython_cache_dir
 
 
+=======
+from IPython.utils.path import get_ipython_cache_dir
+from IPython.display import Image
+>>>>>>> origin/master
 
 import time
 import pandas as pd
