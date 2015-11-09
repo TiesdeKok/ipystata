@@ -31,7 +31,7 @@ Go to your Stata installation directory and either:
 Look up the name of your Stata executable (e.g. `StataMP-64.exe`) and in your command window type:  
 `StataMP-64.exe /Register`
 
-**If you get a com error when using IPyStata it means that the registration was unsuccesful. **
+**If you get a com error when using IPyStata it means that the registration was unsuccesful.**  
 **A potential solution is to run the CMD window as administrator.**  
 Note that this is independent of IPyStata, if you have done it before there is no need to do it again.  
 For more detailed instructions see [this page](http://www.stata.com/automation/#createmsapp).
@@ -190,18 +190,31 @@ Close all Stata sessions (**Warning! This closes <u>all</u> Stata windows**):
 
 Experimental support for Stata syntax highlighting is included. CodeMirror does not have a Stata mode, hence the R mode is modified to accomodate Stata code. Setup instructions are below:
 
-Find your IPython package installation folder. For example:
+Find your notebook package installation folder. For example:
+
+If you are using IPython 3 go to the folder `IPython`, for IPython 4 go to the folder `notebook`:
 
     C:\Users\*User*\AppData\Local\Enthought\Canopy\User\Lib\site-packages\IPython
     C:\Users\*User*\Anaconda\Lib\site-packages\IPython
 
-In this IPython folder go to:
+    C:\Users\*User*\AppData\Local\Enthought\Canopy\User\Lib\site-packages\notebook
+    C:\Users\*User*\Anaconda\Lib\site-packages\notebook
+
+
+In the `IPython` folder **(IPython 3 users)** go to the following directory:
 
     \IPython\html\static\components\codemirror\mode
+
+In the `notebook` folder **(IPython 4 users)** go to the following directory:
+
+    \notebook\static\components\codemirror\mode\
 
 Create a new folder in the "mode" folder called 'stata'
 
     \IPython\html\static\components\codemirror\mode\stata
+**or**
+
+    \notebook\static\components\codemirror\mode\stata
 
 Copy **stata.js** from the ipystata folder (see Github) into the newly created 'stata' folder.
 
