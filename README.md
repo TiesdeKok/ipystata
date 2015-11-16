@@ -14,11 +14,14 @@ Allows the user to write and execute Stata code from within a Jupyter (IPython) 
 
 ####**You can install IPyStata 0.2.2 using:**
 
+    pip install ipystata
+**or**
+
     pip install git+https://github.com/TiesdeKok/ipystata
 
-####**Or you can install IPyStata 0.1.4 using:**    
+#### **Or you can install IPyStata 0.1.4 (does not use Stata Automation) using:**
 
-    pip install ipystata
+    pip install ipystata==0.1.4
 
 ####**Register your Stata instance**
 Go to your Stata installation directory and either:
