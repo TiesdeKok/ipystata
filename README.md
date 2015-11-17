@@ -10,6 +10,8 @@ Allows the user to write and execute Stata code from within a Jupyter (IPython) 
 **PyPi:** https://pypi.python.org/pypi/ipystata  
 **Documentation:** [**basic instructions**](#basic-instructions) or [**example notebook**](http://nbviewer.ipython.org/github/TiesdeKok/ipystata/blob/master/ipystata/Example.ipynb)
 
+####**Want an easy GUI/Tool to open these notebooks? Check out my [Notebook Opener](https://github.com/TiesdeKok/NotebookOpener)!**
+
 ## Practical information:
 
 ####**You can install IPyStata 0.2.2 using:**
