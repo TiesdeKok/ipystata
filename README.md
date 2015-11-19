@@ -7,7 +7,7 @@ Allows the user to write and execute Stata code from within a Jupyter (IPython) 
 **Twitter:** [@TiesdeKok](https://twitter.com/TiesdeKok/)  
 **Homepage:**    https://github.com/TiesdeKok/ipystata  
 **PyPi:** https://pypi.python.org/pypi/ipystata  
-**Documentation:** [**basic instructions**](#basic-instructions) or [**example notebook**](http://nbviewer.ipython.org/github/TiesdeKok/ipystata/blob/master/ipystata/Example.ipynb)
+**Documentation:** [**basic instructions**](#basic-instructions) or [**example notebook**](http://nbviewer.ipython.org/github/TiesdeKok/ipystata/blob/master/ipystata/Example.ipynb)   
 [![Join the chat at https://gitter.im/TiesdeKok/ipystata](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/TiesdeKok/ipystata?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ####**Want an easy GUI/Tool to open these notebooks? Check out my [Notebook Opener](https://github.com/TiesdeKok/NotebookOpener)!**
