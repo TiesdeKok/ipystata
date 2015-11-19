@@ -1,5 +1,7 @@
 # IPyStata
 
+[![Join the chat at https://gitter.im/TiesdeKok/ipystata](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/TiesdeKok/ipystata?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Enables the use of Stata together with Python via Jupyter (IPython) notebooks.
 
 Allows the user to write and execute Stata code from within a Jupyter (IPython) Notebook.  See the example notebook below for an illustration of the functionality.
