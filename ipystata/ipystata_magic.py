@@ -262,8 +262,11 @@ class iPyStataMagic(Magics):
                         val = self.shell.user_ns[input]
                     except KeyError:
                         raise NameError("name '%s' is not defined" % input)
-                if isinstance(val, list):
-                    stata_lists.append(stata_list(val))
+                if isinstance(val, (list, int, float, complex, str)):
+                    if isinstance(val, list):
+                        stata_lists.append(stata_list(val))
+                    else:
+                        stata_lists.append(stata_list([val]))
                     name_list.append(input)
                 else:
                     pass
@@ -335,7 +338,7 @@ class iPyStataMagic(Magics):
         else:
             self.session_dict[session_id].UtilShowStata(1)
 
-        ## Build the command that is send to State.
+        ## Build the command that is send to Stata.
             ## Note, combination is to simplify log handling (only one log output has to be processed).
 
         data_out = os.path.join(self._lib_dir, 'data_output.dta')
@@ -344,7 +347,7 @@ class iPyStataMagic(Magics):
         for x,y in zip(name_list, stata_lists):
             code_list.append("local "+ x + ' ' + y + "\n")
         if args.data:
-            code_list.append(r'use "%s"' % data_dir + "\n")
+            code_list.append(r'use "%s"' % data_dir + ", clear \n")
         if args.changewd:
             code_list.append('quietly cd "%s"'% python_cwd + '\n')
             print('Set the working directory of Stata to: %s' % python_cwd)

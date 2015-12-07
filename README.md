@@ -14,12 +14,16 @@ Allows the user to write and execute Stata code from within a Jupyter (IPython) 
 
 ## Practical information:
 
-####**You can install IPyStata 0.2.2 using:**
+####**You can install IPyStata 0.2.3 using:**
 
     pip install ipystata
 **or**
 
     pip install git+https://github.com/TiesdeKok/ipystata
+
+####**You can update a previous installation to 0.2.3 using:**
+
+    pip install ipystata --upgrade --ignore-installed
 
 #### **Or you can install IPyStata 0.1.4 (does not use Stata Automation) using:**
 
@@ -83,6 +87,7 @@ After a discussion with James Fielder I decided to overhaul my initial code to h
 > - Package is compatible for both Python 2.7.x and Python 3.x.
 > - **Plots are now supported using the `-gr` or `--graph` arguments (added in 0.2.1)**
 > - **Both IPython 3 and IPython 4 are now supported (added in 0.2.2)**
+> - **Fixed error when replacing dataset in Stata + single item to macro now possible (added in 0.2.3)**
 >
 > **Todo:**
 >
