@@ -23,7 +23,7 @@ Allows the user to write and execute Stata code from within a Jupyter (IPython) 
 
 ####**You can update a previous installation to 0.2.3 using:**
 
-    pip install ipystata --upgrade --ignore-installed
+    pip install ipystata --upgrade --force-reinstall
 
 #### **Or you can install IPyStata 0.1.4 (does not use Stata Automation) using:**
 
