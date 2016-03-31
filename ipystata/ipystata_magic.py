@@ -1,11 +1,8 @@
 from __future__ import print_function
+from . import config
+
 import sys
 py3 = sys.version_info > (3,)
-
-if not py3:
-    import ConfigParser
-else:
-    import configparser
 
 from IPython.core.magic import (Magics, magics_class, line_magic,
                                 cell_magic, line_cell_magic, needs_local_scope)
@@ -33,38 +30,25 @@ import atexit
 class iPyStata:
 
     def __init__(self):
-        self._config_dir = os.path.join(get_ipython_cache_dir(), 'stata', 'config')
-        self._config_file = os.path.join(self._config_dir, 'configuration.ini')
-        self._pid_file = os.path.join(self._config_dir, 'pid_list.txt')
-
-        if py3:
-            self.Config = configparser.ConfigParser()
-        else:
-            self.Config = ConfigParser.ConfigParser()
-
-        if not os.path.exists(self._config_dir):
-            os.makedirs(self._config_dir)
-        if not os.path.isfile(self._config_file):
-            with open(self._config_file, 'w') as configfile:
-                self.Config.add_section('Stata configuration')
-                self.Config.set('Stata configuration','installation',"C:\Program Files (x86)\Stata13\StataMP-64.exe")
-                self.Config.write(configfile)
-
-        self.Config.read(self._config_file)
+        self._pid_file = os.path.join(config._config_dir, 'pid_list.txt')
 
         ## Perform a clean-up at the start (Note: this closes all previously started win32com Stata instances!)
 
         if os.path.isfile(self._pid_file):
-            with open(self._pid_file, 'r') as pid_text:
-                still_open = self.get_stata_pid()
-                pids = pid_text.read().split(',')
-                count_close = 0
-                for x in pids:
-                    if int(x) in still_open:
-                        psutil.Process(int(x)).terminate()
-                        count_close += 1
-                if count_close > 0:
-                    print('Terminated %d unattached Stata session(s).' % count_close)
+            if not os.stat(self._pid_file).st_size == 0:
+                with open(self._pid_file, 'r') as pid_text:
+                    still_open = self.get_stata_pid()
+                    pids = pid_text.read().split(',')
+                    count_close = 0
+                
+                    for x in pids:
+                        if int(x) in still_open:
+                            psutil.Process(int(x)).terminate()
+                            count_close += 1
+                    if count_close > 0:
+                        print('Terminated %d unattached Stata session(s).' % count_close)
+            else:
+                os.remove(self._pid_file)
 
         time.sleep(1)
 
@@ -75,19 +59,6 @@ class iPyStata:
                     os.remove(os.path.join(stata_dir, x))
                 except:
                     pass
-
-    def ConfigSectionMap(self, section):
-        dict1 = {}
-        options = self.Config.options(section)
-        for option in options:
-            try:
-                dict1[option] = self.Config.get(section, option)
-                if dict1[option] == -1:
-                    DebugPrint("skip: %s" % option)
-            except:
-                print("exception on %s!" % option)
-                dict1[option] = None
-        return dict1
 
     def process_log(self, log):
         with open(log, 'r+') as log_file:
@@ -146,7 +117,7 @@ class iPyStataMagic(Magics):
         self.session_dict = {}
         self.do_dict = {}
         self.log_dict = {}
-        self.pid_list = []
+        self.pid_list = [] 
 
     @magic_arguments()
 
@@ -173,12 +144,6 @@ class iPyStataMagic(Magics):
 
         def stata_list(l):
             return ' '.join([str(x) for x in l])
-
-        ## Debug mode (Delete before pushing)
-
-        if re.match(r'^debug$', cell, flags=re.I):
-            args = parse_argstring(self.stata, line)
-            return args.getmacro
 
         ## Support functions: sessions, close, close all, reveal all, hide all
 
@@ -243,7 +208,6 @@ class iPyStataMagic(Magics):
         ## Obtain the current working directory and if requested set as Stata working directory.
 
         python_cwd = os.getcwdu() if sys.version_info[0] == 2 else os.getcwd()
-        #os.chdir(self._lib_dir)
 
         args = parse_argstring(self.stata, line)
 

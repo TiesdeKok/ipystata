@@ -1,5 +1,10 @@
-import sys
-if sys.version_info > (3,):
-	from . import ipystata_magic
+from __future__ import absolute_import
+import platform
+from . import config
+
+os_windows = platform.system() == 'Windows'
+
+if os_windows and not config.batch_mode:
+    from . import ipystata_magic
 else:
-	import ipystata_magic
+    from . import ipystata_magic_batch
