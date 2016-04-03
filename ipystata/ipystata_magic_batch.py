@@ -195,7 +195,7 @@ class iPyStataMagic(Magics):
                 cmd = [stata, 'do', code_file]
             else:
                 cmd = [stata, '-e', 'do', code_file]
-        if windows_os:
+        elif windows_os:
             if args.openstata:
                 cmd = [stata, 'do', code_file]
             else:
