@@ -283,7 +283,7 @@ class iPyStataMagic(Magics):
             self.session_dict[session_id] = win32com.client.Dispatch("stata.StataOLEApp")
             self.do_dict[session_id] = self.session_dict[session_id].DoCommandAsync
             self.session_dict[session_id].UtilShowStata(1)
-            self.do_dict[session_id]('log using {} , text replace'.format(self.log_dict[session_id]))
+            self.do_dict[session_id]('log using "{}" , text replace'.format(self.log_dict[session_id]))
             self.do_dict[session_id]('set more off')
 
             pid_after = iPyStata.get_stata_pid()
