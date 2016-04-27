@@ -71,11 +71,15 @@ class iPyStata:
             code = re.sub('\s*opened on: *.*?\\n', "\n", code)
             code = re.sub('\s*closed on: *.*?\\n', "\n", code)
             code = re.sub('\s*closed on: *.*?\\n', "\n", code)
+            code = re.sub('^\n', '', code)
             code = re.sub('\\n\\n. \n. ', '\\n\\n. ', code)
             code = re.sub('\n\.\s\n', '\n', code)
+            code = re.sub('\n:\s\n', '\n', code)
+            code = re.sub("(?<=\W):\s\w.*?(?:\\n|$)", "", code)
             code = re.sub("(?:\\n|^)\. ..*?\\n", "", code)
             code = re.sub("\s{1,3}[0-9]{1,2}\.\s.*?\\n", "", code)
             code = re.sub(r"\.\s\w.*?(?:\\n|$)", "", code)
+            code = re.sub('^\s*(-----).*', "", code)
             code = re.sub('\\n{1,}$', "", code)
             code = re.sub('^\\n{0,}', "\n", code)
             log_file.truncate(0)
@@ -130,6 +134,7 @@ class iPyStataMagic(Magics):
     @argument('-cwd', '--changewd', action='store_true', default=False, help='Set the current Python working directory in Stata session.')
     @argument('-gm', '--getmacro', action='append', help='This will attempt to output the named macro values as a dictionary.')
     @argument('-gr', '--graph', action='store_true', default=False, help='This will classify the Stata cell as one that returns a graph.')
+    @argument('-m', '--mata', action='store_true', default=False, help='This will classify the code in the cell as Mata code.')
 
     @needs_local_scope
     @cell_magic
@@ -315,7 +320,11 @@ class iPyStataMagic(Magics):
         if args.changewd:
             code_list.append('quietly cd "%s"'% python_cwd + '\n')
             print('Set the working directory of Stata to: %s' % python_cwd)
+        if args.mata:
+            code_list.append('mata:' + '\n')
         code_list.append(cell)
+        if args.mata:
+            code_list.append('end' + '\n')
         if args.output:
             code_list.append('quietly save "%s", replace ' % data_out + "\n")
         if args.graph:
@@ -377,6 +386,9 @@ class iPyStataMagic(Magics):
                     return Image(graph_out, retina=True)
                 else:
                     print('\nNo graph displayed, could not find one generated in this cell.')
+            elif args.mata:
+                print("Mata output:")
+                return print(out)
             else:
                 return print(out)
         else:

@@ -60,6 +60,12 @@ class iPyStata:
             log_file.truncate(0)
         return code
 
+    def backup_log(self, input_file, output):
+        with open(output, 'w') as out_file:
+            with open(input_file, 'r') as in_file:
+                lf = in_file.read()
+            out_file.write(lf)
+
 iPyStata = iPyStata()
 
 def clean_at_close():
@@ -161,6 +167,7 @@ class iPyStataMagic(Magics):
 
         stata = config.stata_install
         log_file = os.path.join(self._lib_dir, 'log_output.log')
+        backup_log = os.path.join(self._lib_dir, 'backup_log.txt')
         data_out = os.path.join(self._lib_dir, 'data_output.dta')
         code_file = os.path.join(self._lib_dir, 'code.do')
         graph_out = os.path.join(iPyStata.tornado_dir, 'temp_graph.pdf')
@@ -210,6 +217,8 @@ class iPyStataMagic(Magics):
             return "Failed to open Stata"
 
         time.sleep(1)
+
+        iPyStata.backup_log(log_file, backup_log)
         out = iPyStata.process_log(log_file)
             
 

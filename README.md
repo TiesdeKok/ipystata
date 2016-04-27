@@ -181,6 +181,11 @@ Set your Python working directory to the Stata session (**Only for `Stata Automa
     -cwd --changewd
     In[1]: %%stata -cwd
 
+Set code in the cell to run in Mata (**Only for `Stata Automation`!**) :
+
+    -m --mata
+    In[1]: %%stata -m
+
 Retrieve user-defined macros from Stata into a   Python dictionary: `macro_dict` (**Only for `Stata Automation`!**):
 
     -gm --getmacro    
