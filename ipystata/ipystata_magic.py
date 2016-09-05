@@ -75,13 +75,14 @@ class iPyStata:
             code = re.sub('\\n\\n. \n. ', '\\n\\n. ', code)
             code = re.sub('\n\.\s\n', '\n', code)
             code = re.sub('\n:\s\n', '\n', code)
-            code = re.sub("(?<=\W):\s\w.*?(?:\\n|$)", "", code)
+            code = re.sub("(?<=\n):\s\w.*?(?:\\n|$)", "", code)
             code = re.sub("(?:\\n|^)\. ..*?\\n", "", code)
             code = re.sub("\s{1,3}[0-9]{1,2}\.\s.*?\\n", "", code)
             code = re.sub(r"\.\s\w.*?(?:\\n|$)", "", code)
             code = re.sub('^\s*(-----).*', "", code)
             code = re.sub('\\n{1,}$', "", code)
             code = re.sub('^\\n{0,}', "\n", code)
+            code = re.sub('\\n>.*\n', '\n', code)
             log_file.truncate(0)
         return code
 
