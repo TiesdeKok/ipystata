@@ -323,7 +323,7 @@ class iPyStataMagic(Magics):
             print('Set the working directory of Stata to: %s' % python_cwd)
         if args.mata:
             code_list.append('mata:' + '\n')
-        code_list.append(cell)
+        code_list.append(re.sub(r"///\n", "", cell))
         if args.mata:
             code_list.append('end' + '\n')
         if args.output:
