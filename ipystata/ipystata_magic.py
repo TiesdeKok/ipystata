@@ -323,7 +323,15 @@ class iPyStataMagic(Magics):
             print('Set the working directory of Stata to: %s' % python_cwd)
         if args.mata:
             code_list.append('mata:' + '\n')
-        code_list.append(re.sub(r"[ ]{1,}\/\/\/.*\n", " ", cell))
+        ## Remove line breaks
+        cell = re.sub(r"[ ]{1,}\/\/\/.*\n[\s]*", " ", cell)
+        ## Remove comments starting with //
+        cell = re.sub("[ ]{1,}\/\/.*", "", cell)
+        ## Remove comments between /* */
+        cell = re.sub("\/\*((.|\n)*)\*\/", "", cell)
+        ## Remove lines starting with *
+        cell = re.sub("(?m)^\*.*\n?", "", cell)
+        code_list.append(cell)
         if args.mata:
             code_list.append('end' + '\n')
         if args.output:
