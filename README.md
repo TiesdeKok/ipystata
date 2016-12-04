@@ -308,6 +308,12 @@ Create a new folder in the "mode" folder called 'stata'
 
 Copy **stata.js** from the ipystata folder (see Github) into the newly created 'stata' folder.
 
+You can then enable syntax highlighting by running the following code in a Jupyter Notebook cell and restarting the kernel:  
+
+    import ipystata  
+    from ipystata.config import config_syntax_higlight    
+    config_syntax_higlight(True)    
+
 ##Special mentions
 
 

@@ -407,6 +407,7 @@ class iPyStataMagic(Magics):
 ip = get_ipython()
 ip.register_magics(iPyStataMagic)
 
-# Enable the stata syntax highlighting:
-js = "IPython.CodeCell.config_defaults.highlight_modes['magic_stata'] = {'reg':[/^%%stata/]};"
-display.display_javascript(js, raw=True)
+if config.enable_syntax_highlight:
+	# Enable the stata syntax highlighting:
+	js = "IPython.CodeCell.config_defaults.highlight_modes['magic_stata'] = {'reg':[/^%%stata/]};"
+	display.display_javascript(js, raw=True)

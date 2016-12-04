@@ -30,6 +30,7 @@ def make_config():
             pass
         Config.set('Stata configuration', 'installation', "C:\Program Files (x86)\Stata13\StataMP-64.exe")
         Config.set('Stata configuration', 'force_batch_mode', "False")
+        Config.set('Stata configuration', 'enable_syntax_highlight', "False")
         Config.write(configfile)
 
 def ConfigSectionMap(section):
@@ -51,6 +52,11 @@ def config_stata(stata, force_batch=False):
     with open(_config_file, 'w') as configfile:
         Config.write(configfile)
 
+def config_syntax_higlight(enable_syntax_highlight):
+    Config.set('Stata configuration', 'enable_syntax_highlight', '%s' % enable_syntax_highlight)
+    with open(_config_file, 'w') as configfile:
+        Config.write(configfile)
+
 if not os.path.exists(_config_dir):
     os.makedirs(_config_dir)
 if not os.path.isfile(_config_file):
@@ -62,9 +68,10 @@ elif os.path.isfile(_config_file):
     except:
         make_config()
     else:
-        option_list = set(['installation', 'force_batch_mode'])
+        option_list = set(['installation', 'force_batch_mode', 'enable_syntax_highlight'])
         if not len(options.intersection(option_list)) == len(option_list):
             make_config()
 
 batch_mode = ConfigSectionMap("Stata configuration")['force_batch_mode'] == 'True'
 stata_install =  ConfigSectionMap("Stata configuration")['installation']
+enable_syntax_highlight = ConfigSectionMap("Stata configuration")['enable_syntax_highlight'] == 'True'
