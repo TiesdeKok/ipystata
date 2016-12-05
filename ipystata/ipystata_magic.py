@@ -136,6 +136,8 @@ class iPyStataMagic(Magics):
     @argument('-gm', '--getmacro', action='append', help='This will attempt to output the named macro values as a dictionary.')
     @argument('-gr', '--graph', action='store_true', default=False, help='This will classify the Stata cell as one that returns a graph.')
     @argument('-m', '--mata', action='store_true', default=False, help='This will classify the code in the cell as Mata code.')
+    @argument('-w', '--width', type=int, default=1000, help='Graph width.')
+    @argument('-h', '--height', type=int, default=800, help='Graph height.')
 
     @needs_local_scope
     @cell_magic
@@ -337,7 +339,7 @@ class iPyStataMagic(Magics):
         if args.output:
             code_list.append('quietly save "%s", replace ' % data_out + "\n")
         if args.graph:
-            code_list.append('quietly graph export "%s", replace width(1000) height(800) ' % graph_out + "\n")
+            code_list.append('quietly graph export "%s", replace width(%d) height(%d) ' % (graph_out, args.width, args.height) + "\n")
         code_txt= '\n'.join(code_list)
 
         ## Execute code and wait for the Stata session to finish.
