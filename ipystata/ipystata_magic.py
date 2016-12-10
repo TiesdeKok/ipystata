@@ -63,28 +63,35 @@ class iPyStata:
     def process_log(self, log):
         with open(log, 'r+') as log_file:
             code = log_file.read()
-            code = re.sub('^-*\\n', "", code)
-            code = re.sub('-*\\n$', "", code)
-            code = re.sub('\s*name: *.*?\\n', "\n", code)
-            code = re.sub('\s*log: *.*?\\n', "\n", code)
-            code = re.sub('\s*log type: *.*?\\n', "\n", code)
-            code = re.sub('\s*opened on: *.*?\\n', "\n", code)
-            code = re.sub('\s*closed on: *.*?\\n', "\n", code)
-            code = re.sub('\s*closed on: *.*?\\n', "\n", code)
-            code = re.sub('^\n', '', code)
-            code = re.sub('\\n\\n. \n. ', '\\n\\n. ', code)
-            code = re.sub('\n\.\s\n', '\n', code)
-            code = re.sub('\n:\s\n', '\n', code)
-            code = re.sub("(?<=\n):\s\w.*?(?:\\n|$)", "", code)
-            code = re.sub("(?:\\n|^)\. ..*?\\n", "", code)
-            code = re.sub("\s{1,3}[0-9]{1,2}\.\s.*?\\n", "", code)
-            code = re.sub(r"\.\s\w.*?(?:\\n|$)", "", code)
-            code = re.sub('^\s*(-----).*', "", code)
-            code = re.sub('\\n{1,}$', "", code)
-            code = re.sub('^\\n{0,}', "\n", code)
-            code = re.sub('\\n>.*\n', '\n', code)
+            # Remove horizontal line at the beginning of flie
+            code = re.sub(r"^-*\n", "", code)
+            # Match lines beginning with period
+            code = re.sub(r"(?m)^\.\s.*\n+", "", code)
+            # Match lines beginning with >
+            code = re.sub(r"(?m)^\>.*\n+", "", code)
+            # Remove other lines from log
+            code = re.sub(r"\s*name: *.*?\n", "", code)
+            code = re.sub(r"\s*log: *.*?\n", "", code)
+            code = re.sub(r"\s*log type: *.*?\n", "", code)
+            code = re.sub(r"\s*opened on: *.*?\n", "", code)
+            code = re.sub(r"\s*closed on: *.*?\n", "", code)
+            code = re.sub(r"\s*closed on: *.*?\n", "", code)
             log_file.truncate(0)
         return code
+
+    def process_cmd(self, text):
+        cell = text
+
+        ## Remove line breaks
+        cell = re.sub(r"[ ]{1,}\/\/\/.*\n[\s]*", " ", cell)
+        ## Remove comments starting with //
+        cell = re.sub(r"[ ]{1,}\/\/.*", "", cell)
+        ## Remove comments between /* */
+        cell = re.sub(r"\/\*((.|\n)*)\*\/", "", cell)
+        ## Remove lines starting with *
+        cell = re.sub(r"(?m)^\*.*\n?", "", cell)
+
+        return cell
 
     def get_stata_pid(self):
         pid_list = []
@@ -325,15 +332,7 @@ class iPyStataMagic(Magics):
             print('Set the working directory of Stata to: %s' % python_cwd)
         if args.mata:
             code_list.append('mata:' + '\n')
-        ## Remove line breaks
-        cell = re.sub(r"[ ]{1,}\/\/\/.*\n[\s]*", " ", cell)
-        ## Remove comments starting with //
-        cell = re.sub("[ ]{1,}\/\/.*", "", cell)
-        ## Remove comments between /* */
-        cell = re.sub("\/\*((.|\n)*)\*\/", "", cell)
-        ## Remove lines starting with *
-        cell = re.sub("(?m)^\*.*\n?", "", cell)
-        code_list.append(cell)
+        code_list.append(iPyStata.process_cmd(cell))
         if args.mata:
             code_list.append('end' + '\n')
         if args.output:
