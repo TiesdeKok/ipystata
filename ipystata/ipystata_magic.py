@@ -65,23 +65,28 @@ class iPyStata:
             code = log_file.read()
             # Remove horizontal line at the beginning of flie
             code = re.sub(r"^-*\n", "", code)
+            # Remove other lines from the beginning of flie
+            code = re.sub(r"\s*name: *.*?\n+", "", code)
+            code = re.sub(r"\s*log: *.*?\n+", "", code)
+            code = re.sub(r"\s*log type: *.*?\n+", "", code)
+            code = re.sub(r"\s*opened on: *.*?\n+", "", code)
+            code = re.sub(r"\s*closed on: *.*?\n+", "", code)
+            code = re.sub(r"\s*closed on: *.*?\n+", "", code)
+            # Remove mata commands
+            code = re.sub(r"(?m)^\.\smata.*\n.*\n+", "\n", code)
+            code = re.sub(r"(?m)^\:\send.*\n.*\n+", "", code)
+            code = re.sub(r"(?m)^\:\s.*\n+", "", code)
             # Match lines beginning with period
-            code = re.sub(r"(?m)^\.\s.*\n+", "", code)
+            code = re.sub(r"(?m)^\.[^{}\n]+(?:\{[^{}]*\})?\n", "", code)
             # Match lines beginning with >
             code = re.sub(r"(?m)^\>.*\n+", "", code)
-            # Remove other lines from log
-            code = re.sub(r"\s*name: *.*?\n", "", code)
-            code = re.sub(r"\s*log: *.*?\n", "", code)
-            code = re.sub(r"\s*log type: *.*?\n", "", code)
-            code = re.sub(r"\s*opened on: *.*?\n", "", code)
-            code = re.sub(r"\s*closed on: *.*?\n", "", code)
-            code = re.sub(r"\s*closed on: *.*?\n", "", code)
+            # Remove multiple new lines from the end of file
+            code = re.sub(r"\n+$", "\n", code)
             log_file.truncate(0)
         return code
 
     def process_cmd(self, text):
         cell = text
-
         ## Remove line breaks
         cell = re.sub(r"[ ]{1,}\/\/\/.*\n[\s]*", " ", cell)
         ## Remove comments starting with //
@@ -90,7 +95,6 @@ class iPyStata:
         cell = re.sub(r"\/\*((.|\n)*)\*\/", "", cell)
         ## Remove lines starting with *
         cell = re.sub(r"(?m)^\*.*\n?", "", cell)
-
         return cell
 
     def get_stata_pid(self):
