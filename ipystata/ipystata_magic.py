@@ -82,6 +82,10 @@ class iPyStata:
             code = re.sub(r"(?m)^\>.*\n+", "", code)
             # Remove multiple new lines from the end of file
             code = re.sub(r"\n+$", "\n", code)
+            # Remove multiple new lines from the beginning of the file
+            code = re.sub(r"^\n+", "\n", code)
+            # Remove multiple intermediate new lines
+            code = re.sub(r'\n{3,}', "\n\n", code)
             log_file.truncate(0)
         return code
 
