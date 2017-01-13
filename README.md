@@ -323,6 +323,9 @@ This project is inspired by and based on the excelent work of:
 - Fortran Magic (https://pypi.python.org/pypi/fortran-magic)
 - Stata-Kernel (https://github.com/jrfiedler/stata-kernel)
 
+Contributors:  
+[**@Pacbard**](https://github.com/pacbard)   
+
 ##Disclaimer
 
 This project is not affiliated with or endorsed by Statacorp.
