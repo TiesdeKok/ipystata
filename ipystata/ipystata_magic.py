@@ -442,7 +442,6 @@ class iPyStataMagic(Magics):
             if len(new_graphs)>0:
               for graph_out in graphs_out:
                 display.display(Image(graph_out, retina=True))
-              #return [Image(graph_out, retina=True) for graph_out in graphs_out]
         else:
             return
 
