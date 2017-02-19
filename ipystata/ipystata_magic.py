@@ -26,6 +26,7 @@ import re
 import win32com.client
 import psutil
 import atexit
+from datetime import datetime
 
 class iPyStata:
 
@@ -137,6 +138,7 @@ class iPyStataMagic(Magics):
         self.session_dict = {}
         self.do_dict = {}
         self.log_dict = {}
+        self.gph_info_dict = {}
         self.pid_list = [] 
 
     @magic_arguments()
@@ -149,7 +151,6 @@ class iPyStataMagic(Magics):
     @argument('-s', '--session', default='main', help='The name of a Stata session in which the cell has to be executed.')
     @argument('-cwd', '--changewd', action='store_true', default=False, help='Set the current Python working directory in Stata session.')
     @argument('-gm', '--getmacro', action='append', help='This will attempt to output the named macro values as a dictionary.')
-    @argument('-gr', '--graph', action='store_true', default=False, help='This will classify the Stata cell as one that returns a graph.')
     @argument('-m', '--mata', action='store_true', default=False, help='This will classify the code in the cell as Mata code.')
     @argument('-w', '--width', type=int, default=1000, help='Graph width.')
     @argument('-h', '--height', type=int, default=800, help='Graph height.')
@@ -167,6 +168,17 @@ class iPyStataMagic(Magics):
 
         def stata_list(l):
             return ' '.join([str(x) for x in l])
+        
+        def get_graphs_info():
+          self.session_dict[session_id].DoCommand("graph dir")
+          gnamelist = self.session_dict[session_id].StReturnString("r(list)")
+          graphs_info = {}
+          for gname in gnamelist.split():
+            self.session_dict[session_id].DoCommand("graph describe " + gname)
+            ts_str = self.session_dict[session_id].StReturnString("r(command_date)")+" "+self.session_dict[session_id].StReturnString("r(command_time)")
+            ts = datetime.strptime(ts_str, "%d %b %Y %H:%M:%S")
+            graphs_info[gname] = ts
+          return graphs_info
 
         ## Support functions: sessions, close, close all, reveal all, hide all
 
@@ -306,6 +318,7 @@ class iPyStataMagic(Magics):
             self.session_dict[session_id] = win32com.client.Dispatch("stata.StataOLEApp")
             self.do_dict[session_id] = self.session_dict[session_id].DoCommandAsync
             self.session_dict[session_id].UtilShowStata(1)
+            self.gph_info_dict[session_id] = {}
             self.do_dict[session_id]('log using "{}" , text replace'.format(self.log_dict[session_id]))
             self.do_dict[session_id]('set more off')
 
@@ -329,7 +342,6 @@ class iPyStataMagic(Magics):
             ## Note, combination is to simplify log handling (only one log output has to be processed).
 
         data_out = os.path.join(self._lib_dir, 'data_output.dta')
-        graph_out = os.path.join(self._lib_dir, 'temp_graph.png')
         code_list = []
         for x,y in zip(name_list, stata_lists):
             code_list.append("local "+ x + ' ' + y + "\n")
@@ -345,8 +357,6 @@ class iPyStataMagic(Magics):
             code_list.append('end' + '\n')
         if args.output:
             code_list.append('quietly save "%s", replace ' % data_out + "\n")
-        if args.graph:
-            code_list.append('quietly graph export "%s", replace width(%d) height(%d) ' % (graph_out, args.width, args.height) + "\n")
         code_txt= '\n'.join(code_list)
 
         ## Execute code and wait for the Stata session to finish.
@@ -359,7 +369,34 @@ class iPyStataMagic(Magics):
         ## Give the log file a second to save and then process it.
 
         time.sleep(1)
+        
+        # Get current graph info. Find new ones, and update info
+        self.session_dict[session_id].DoCommand("qui log off")
+        graphs_info = get_graphs_info()
+        graphs_info_old = self.gph_info_dict[session_id]
+        new_graphs = []
+        for gname in graphs_info.keys():
+          if (gname not in graphs_info_old) or graphs_info[gname]!=graphs_info_old[gname]:
+            new_graphs.append(gname)
+        self.gph_info_dict[session_id] = graphs_info
+        
+        #export new graphs
+        if len(new_graphs)>0 and not args.noprint:
+          graphs_out = [os.path.join(self._lib_dir, 'temp_graph'+str(i)+'.png') for i in range(len(new_graphs))]
+          gph_exp_code_list = ['graph export "%s", name(%s) replace width(%d) height(%d) ' % (graphs_out[i], new_graphs[i], args.width, args.height) for i in range(len(new_graphs))]
+          gph_exp_code_txt= '\n'.join(gph_exp_code_list)
+
+          self.do_dict[session_id](gph_exp_code_txt)
+          while self.session_dict[session_id].UtilIsStataFree() == 0:
+            pass
+        self.session_dict[session_id].DoCommand("qui log on")
+        
         out = iPyStata.process_log(self.log_dict[session_id])
+        
+        #For some reason, after the -log on- the first command 
+        #in the next cell doesn't start with a ". " so pre-pend it here
+        with open(self.log_dict[session_id], "a") as myfile:
+          myfile.write(". ")
 
         if args.output:
             try:
@@ -397,18 +434,15 @@ class iPyStataMagic(Magics):
             pid_text.write(','.join(map(str, self.pid_list)))
 
         if not args.noprint:
-            if args.graph:
-                if not len(out) < 5:
-                    print(out)
-                if re.search('could not find Graph window', out, flags=re.I) is None:
-                    return Image(graph_out, retina=True)
-                else:
-                    print('\nNo graph displayed, could not find one generated in this cell.')
-            elif args.mata:
+            if args.mata:
                 print("Mata output:")
-                return print(out)
-            else:
-                return print(out)
+                print(out)
+            elif not len(out) < 5:
+                print(out)
+            if len(new_graphs)>0:
+              for graph_out in graphs_out:
+                display.display(Image(graph_out, retina=True))
+              #return [Image(graph_out, retina=True) for graph_out in graphs_out]
         else:
             return
 
