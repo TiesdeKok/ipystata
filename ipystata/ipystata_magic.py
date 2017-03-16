@@ -154,6 +154,8 @@ class iPyStataMagic(Magics):
     @argument('-m', '--mata', action='store_true', default=False, help='This will classify the code in the cell as Mata code.')
     @argument('-w', '--width', type=int, default=1000, help='Graph width.')
     @argument('-h', '--height', type=int, default=800, help='Graph height.')
+    @argument('-gr', '--graph', action='store_true', default=False, help='Legacy argument. Not active anymore.')
+    @argument('-nogr', '--nograph', action='store_true', default=False, help='Prevents graphs from being displayed.')
 
     @needs_local_scope
     @cell_magic
@@ -439,7 +441,7 @@ class iPyStataMagic(Magics):
                 print(out)
             elif not len(out) < 5:
                 print(out)
-            if len(new_graphs)>0:
+            if len(new_graphs)>0 and not args.nograph:
               for graph_out in graphs_out:
                 display.display(Image(graph_out, retina=True))
         else:

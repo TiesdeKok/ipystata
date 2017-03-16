@@ -153,7 +153,13 @@ Input Python lists and load them into Stata as macros (**Both methods**):
     In[2]: %%stata -i example_list  
            display "`example_list'"
 
-If you want a Stata graph as an output of a IPyStata cell you can use the following argument (**Both methods**):
+Graph will automatically display and multiple graphs are possible (**Only for `Stata Automation`!**):   
+If you want to show multiple graphs, you have to make sure to use the , name(.., replace)argument in your Stata code.   
+the order is not guaranteed to be the same as the generation order. Recommended to use the title() argument when showing multiple graphs.   
+
+It is possible to prevent graphs from showing using the `-nogr` or `--nograph` arguments.
+
+If you want a Stata graph as an output of a IPyStata cell you can use the following argument (**Only for `Stata Batch Mode`!**):
 
     -gr --graph  
     In[1]: %%stata -gr
