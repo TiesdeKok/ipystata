@@ -331,6 +331,7 @@ This project is inspired by and based on the excelent work of:
 
 Contributors:  
 [**@Pacbard**](https://github.com/pacbard)   
+[**@bquistorff**](https://github.com/bquistorff) 
 
 ##Disclaimer
 
