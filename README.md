@@ -1,37 +1,48 @@
-# IPyStata
-Enables the use of Stata together with Python via Jupyter (IPython) notebooks.
+<h1 align="center">
+   <img src="https://i.imgur.com/2FSNsj4.png" alt="Combine Python with Stata using IPyStata" title="Combine Python with Stata using IPyStata" />
+</h1>
+<p align="center">  
+ <a href="https://gitter.im/TiesdeKok/ipystata"><img src="https://img.shields.io/gitter/room/nwjs/nw.js.svg"></a>
+ <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+ <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2UKM4JREAPTBG"><img src="https://img.shields.io/badge/buy%20me%20a-coffee-yellow.svg"></a>
+ 
+</p>
 
-Allows the user to write and execute Stata code from within a Jupyter (IPython) Notebook.  See the example notebook below for an illustration of the functionality.   
-**Now supports Windows, Mac OS X, and Linux!**
+<p align="center">
+  <strong>IPyStata</strong> enables the use of Stata together with Python via Jupyter (IPython) notebooks. <br> <br>
+  <span><strong>Author:</strong> Ties de Kok (<a href="http://www.TiesdeKok.com">Personal Page</a>)</span><br>
+  <span><strong>PyPi: </strong><a href="https://pypi.python.org/pypi/ipystata ">https://pypi.python.org/pypi/ipystata </a></span><br>
+  <span><strong>Documentation: </strong><a href="http://nbviewer.ipython.org/github/TiesdeKok/ipystata/blob/master/ipystata/Example.ipynb">Example notebook</a></span>
+</p>
 
-**Author:**   Ties de Kok *(t.c.j.dekok@tilburguniversity.edu)*  
-**Twitter:** [@TiesdeKok](https://twitter.com/TiesdeKok/)  
-**Homepage:**    https://github.com/TiesdeKok/ipystata  
-**PyPi:** https://pypi.python.org/pypi/ipystata  
-**Documentation:** [**basic instructions**](#basic-instructions) or [**example notebook**](http://nbviewer.ipython.org/github/TiesdeKok/ipystata/blob/master/ipystata/Example.ipynb)   
-Example notebook for Mac OS X and Linux users: [batch mode notebook](http://nbviewer.ipython.org/github/TiesdeKok/ipystata/blob/master/ipystata/Example_batch.ipynb)  
-[![Join the chat at https://gitter.im/TiesdeKok/ipystata](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/TiesdeKok/ipystata?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+## Table of contents
 
-###**Want an easy GUI/Tool to open these notebooks? Check out my [Notebook Opener](https://github.com/TiesdeKok/NotebookOpener)!**
+  * [Get IPyStata](#getipystata)
+  * [Setup IPyStata](#setup)
+  	* [Windows](#setupwindows)   
+  	* [Unix (Linux, Mac OS)](#setupunix)	 
+  * [Using IPyStata](#usingipystata)
+  * [Changelog](#changelog)
+  * [Questions?](#questions)
+  * [License](#license)
+  * [Special thanks](#specialthanks)
 
-### Quick access: [Install](#get-ipystata), [Configure](#set-up-ipystata), [Using IPyStata](#use-ipystata),  and [Changelog](#changelog) 
+<h2 id="getipystata">Get IPyStata</h2>
 
-## Get IPyStata:
-###**You can install IPyStata 0.3.0 using:**
+### **You can install IPyStata 0.3.0 using:**
 
     pip install ipystata
-###**You can update a previous installation to 0.3.0 using:**
+### **You can update a previous installation to 0.3.0 using:**
 
     pip install ipystata --upgrade --force-reinstall
-###**Dependencies**
+### **Dependencies**
 Python 2.7 or 3.x  
 IPython 3 or 4 (http://ipython.org/)  
 Pandas **0.17.x +** (http://pandas.pydata.org/) (I recommend to use a distribution like Anaconda)  
 Recent version of Stata (13 / 14 preferably) (http://www.stata.com/)  
 
-### If you find bugs or have feature requests: make sure to open an issue so I can improve IPyStata!
+<h2 id="setup">Set up IPyStata</h2>
 
-## Set up IPyStata:
 #### **Modes of operation:**
 IPyStata can communicate with Stata using two different techniques:  
 
@@ -44,11 +55,9 @@ Unfortunately, Stata only supports `Stata Automation` for Stata instances runnin
 For Windows `Stata Automation` is set as default but it is possible to set it to use `Stata Batch mode` instead.  
 For Unix operating systems (OS X and Linux) it is only possible to use IPyStata in `Stata Batch mode`.
 
+<h3 id="setupwindows">Windows setup (Stata Automation)</h3>
 
-###**Configure Stata Automation (Windows users only)**
-**Are you using Mac OS X or Linux? [Click here!](#set-installation-directory-for-stata)**
-
-####Register your Stata instance:
+#### Register your Stata instance:
 1. Go to your Stata installation directory and either:
 
     -  Shift + Right-Click --> click "*Open command window here*"  
@@ -59,7 +68,7 @@ For Unix operating systems (OS X and Linux) it is only possible to use IPyStata 
 2. Look up the name of your Stata executable (e.g. `StataMP-64.exe`) and in your command window type:  
 `StataMP-64.exe /Register`
 
-####Troubleshooting:
+#### Troubleshooting:
 **I get a `com error` when using IPyStata in `Stata Automation` mode?**
 
 > IPyStata cannot communicate with Stata. This error indicates that the registration of Stata was unsuccessful.  
@@ -70,9 +79,10 @@ For Unix operating systems (OS X and Linux) it is only possible to use IPyStata 
 
 *For more detailed instructions see [this page](http://www.stata.com/automation/#createmsapp).*
 
-###**Configure Stata Batch Mode (Windows, Mac OS X, and Linux):**
+<h3 id="setupunix"> Linux / Mac OS setup (Stata Batch mode)</h3>
 
-####Set installation directory for Stata:
+The Batch mode approach works on Windows, Mac OS, and Linux
+#### Set installation directory for Stata:
 The first step is to tell IPyStata where it can find the Stata installation, use the following commands: 
 
     In[1]: import ipystata  
@@ -87,7 +97,7 @@ You can find the Stata executable in the installation directory of Stata, for ex
     Mac OS X --> '/Applications/Stata/StataSE.app/Contents/MacOS/stataSE'
     Linux    --> '/home/user/stata14/stata-se'
 
-####Configure IPyStata to use the Stata Batch Mode on Windows:
+#### Configure IPyStata to use the Stata Batch Mode on Windows:
 It is possible to use `config_stata` to configure IPyStata to use the `Stata Batch Mode` on Windows instead of the default `Stata Automation` mode. See the example below:
 
     In[1]: import ipystata  
@@ -97,7 +107,7 @@ It is possible to use `config_stata` to configure IPyStata to use the `Stata Bat
 **Note:** This is only advisable if you have a portable Stata installation that you cannot register or if you want to use IPyStata on a Windows server.   
 The `Stata Automation` method is in most other cases a better option.
     
-####Troubleshooting:
+#### Troubleshooting:
 **I set the installation directory but IPyStata still does not work?**
 
 > The new Stata installation is only initialized after a complete kernel restart.   
@@ -106,12 +116,13 @@ The `Stata Automation` method is in most other cases a better option.
 **Do I have to configure my Stata installation everytime I want to use IPyStata?**
 > No, you only have to configure your Stata executable once unless you want to change your Stata installation.
 
-## Use IPyStata:
-####**Before you get started:**
-If you use `Stata Automation` --> Make sure that you have a registered Stata instance ([instructions](#register-your-stata-instance))  
-If you use `Stata Batch Mode` --> Make sure that you have configured your Stata installation ([instructions](#set-installation-directory-for-stata))
+<h2 id="usingipystata">Using IPyStata</h2>
 
-####**Using IPyStata:**
+#### **Before you get started:**
+If you use `Stata Automation` --> Make sure that you have a registered Stata instance: [Windows](#setupwindows)   
+If you use `Stata Batch Mode` --> Make sure that you have configured your Stata installation: [Unix (Linux, Mac OS)](#setupunix)
+
+#### **Using IPyStata:**
 
 You can use IPyStata using the `%%stata` cell magic.  
 See the [**basic instructions**](#basic-instructions) below or the [**example notebook**](http://nbviewer.ipython.org/github/TiesdeKok/ipystata/blob/master/ipystata/Example.ipynb).  
@@ -134,7 +145,7 @@ For example:
            display "Hello, I am printed in Stata."  
 
 
-###**Arguments:**
+### **Arguments:**
     
 Send a Pandas dataframe to be used in the Stata session (**Both methods**):  
 
@@ -206,7 +217,7 @@ Set a working directoy to use while executing this cell  (**Only for `Stata Batc
     -cwd --changewd
     In[1]: %%stata -cwd '~/folder'
 
-###**Session manager (Stata Automation users only):**
+### **Session manager (Stata Automation users only):**
 
 IPyStata 0.2 introduces the possibility to use many different Stata sessions that by default run in the background. In order to avoid using unnecessary system resources several tools and automatic cleanup routines are included.
 
@@ -237,7 +248,7 @@ Close all Stata sessions (**Warning! This closes <u>all</u> Stata windows**):
 - At import/load all Stata sessions initiated by a previous IPyStata import are terminated.
 - When IPyStata is unloaded it tries to close all Stata sessions that it created.
 
-## Changelog:
+<h2 id="changelog">Changelog</h2>
 
 ### What is new in 0.3:
 The `Stata Automation` method introduced in IPyStata 0.2 only works on Windows, this release adds support for the Mac OS X and Linux operating systems using the `Stata Batch Mode` approach. 
@@ -282,7 +293,7 @@ After a discussion with James Fielder I decided to overhaul my initial code to h
 > - Improve Stata syntax highlighting.
 
 
-##Syntax Highlighting
+## Syntax Highlighting
 
 Experimental support for Stata syntax highlighting is included. CodeMirror does not have a Stata mode, hence the R mode is modified to accomodate Stata code. Setup instructions are below:
 
@@ -319,9 +330,17 @@ You can then enable syntax highlighting by running the following code in a Jupyt
     import ipystata  
     from ipystata.config import config_syntax_higlight    
     config_syntax_higlight(True)    
+    
+<h2 id="questions">Questions?</h2>
 
-##Special mentions
+If you have questions or experience problems please use the `issues` tab of this repository.   
+You can also e-mail me at t.c.j.dekok [at] tilburguniversity.edu .
 
+<h2 id="license">License</h2>  
+
+[MIT](LICENSE) - Ties de Kok - 2017
+
+<h2 id="specialthanks">Special mentions</h2>
 
 This project is inspired by and based on the excelent work of:  
 
@@ -333,6 +352,6 @@ Contributors:
 [**@Pacbard**](https://github.com/pacbard)   
 [**@bquistorff**](https://github.com/bquistorff) 
 
-##Disclaimer
+## Disclaimer
 
 This project is not affiliated with or endorsed by Statacorp.
