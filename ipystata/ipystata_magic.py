@@ -453,5 +453,12 @@ ip.register_magics(iPyStataMagic)
 
 if config.enable_syntax_highlight:
 	# Enable the stata syntax highlighting:
-	js = "IPython.CodeCell.config_defaults.highlight_modes['magic_stata'] = {'reg':[/^%%stata/]};"
+	#js = "IPython.CodeCell.config_defaults.highlight_modes['magic_stata'] = {'reg':[/^%%stata/]};"
+	js = """require(['notebook/js/codecell'], function(codecell) {
+			  codecell.CodeCell.options_default.highlight_modes['magic_stata'] = {'reg':[/^%%stata/]} ;
+			  Jupyter.notebook.events.one('kernel_ready.Kernel', function(){
+			      Jupyter.notebook.get_cells().map(function(cell){
+			          if (cell.cell_type == 'code'){ cell.auto_highlight(); } }) ;
+			  });
+			});"""
 	display.display_javascript(js, raw=True)
