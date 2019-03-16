@@ -323,6 +323,7 @@ class iPyStataMagic(Magics):
             self.gph_info_dict[session_id] = {}
             self.do_dict[session_id]('log using "{}" , text replace'.format(self.log_dict[session_id]))
             self.do_dict[session_id]('set more off')
+            self.do_dict[session_id]('set linesize 200')
 
             pid_after = iPyStata.get_stata_pid()
             if len(pid_before) == 1 and pid_before == pid_after:
