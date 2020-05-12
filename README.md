@@ -250,6 +250,10 @@ Close all Stata sessions (**Warning! This closes <u>all</u> Stata windows**):
 
 <h2 id="changelog">Changelog</h2>
 
+
+### What is new in 0.4:   
+Minor improvements for line width in the log files and added support for UTF-8 encoding in Stata files (requires Pandas 1.0+ to work!).
+
 ### What is new in 0.3:
 The `Stata Automation` method introduced in IPyStata 0.2 only works on Windows, this release adds support for the Mac OS X and Linux operating systems using the `Stata Batch Mode` approach. 
 

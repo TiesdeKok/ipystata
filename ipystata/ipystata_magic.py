@@ -62,7 +62,7 @@ class iPyStata:
                     pass
 
     def process_log(self, log):
-        with open(log, 'r+') as log_file:
+        with open(log, 'r+', encoding='utf-8') as log_file:
             code = log_file.read()
             # Remove horizontal line at the beginning of flie
             code = re.sub(r"^-*\n", "", code)
@@ -290,10 +290,16 @@ class iPyStataMagic(Magics):
                         date_var.append(x)
                     else:
                         pass
-                if date_var:
-                    val.to_stata(data_dir, convert_dates= {x:'tc' for x in date_var}, write_index=False)
-                else:
-                    val.to_stata(data_dir, write_index=False)
+                try:
+                    if date_var:
+                        val.to_stata(data_dir, convert_dates= {x:'tc' for x in date_var}, write_index=False)
+                    else:
+                        val.to_stata(data_dir, write_index=False)
+                except:
+                    if date_var:
+                        val.to_stata(data_dir, convert_dates= {x:'tc' for x in date_var}, write_index=False, version=118)
+                    else:
+                        val.to_stata(data_dir, write_index=False, version=118)                    
             else:
                 pass
 
@@ -398,7 +404,7 @@ class iPyStataMagic(Magics):
         
         #For some reason, after the -log on- the first command 
         #in the next cell doesn't start with a ". " so pre-pend it here
-        with open(self.log_dict[session_id], "a") as myfile:
+        with open(self.log_dict[session_id], "a", encoding='utf-8') as myfile:
           myfile.write(". ")
 
         if args.output:
