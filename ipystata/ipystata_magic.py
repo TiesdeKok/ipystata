@@ -156,6 +156,7 @@ class iPyStataMagic(Magics):
     @argument('-h', '--height', type=int, default=800, help='Graph height.')
     @argument('-gr', '--graph', action='store_true', default=False, help='Legacy argument. Not active anymore.')
     @argument('-nogr', '--nograph', action='store_true', default=False, help='Prevents graphs from being displayed.')
+    @argument('-vr', '--version', default=114, help='Version of DTA file to use')
 
     @needs_local_scope
     @cell_magic
@@ -292,9 +293,9 @@ class iPyStataMagic(Magics):
                         pass
                 try:
                     if date_var:
-                        val.to_stata(data_dir, convert_dates= {x:'tc' for x in date_var}, write_index=False)
+                        val.to_stata(data_dir, convert_dates= {x:'tc' for x in date_var}, write_index=False, version=int(args.version))
                     else:
-                        val.to_stata(data_dir, write_index=False)
+                        val.to_stata(data_dir, write_index=False, version=version=int(args.version))
                 except:
                     if date_var:
                         val.to_stata(data_dir, convert_dates= {x:'tc' for x in date_var}, write_index=False, version=118)

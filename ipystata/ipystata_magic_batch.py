@@ -93,7 +93,7 @@ class iPyStataMagic(Magics):
     @argument('-gr', '--graph', action='store_true', default=False, help='This will classify the Stata cell as one that returns a graph.')
     @argument('-os', '--openstata', action='store_true', default=False, help='Open Stata.')
     @argument('-cl', '--close', action='store_true', default=False, help='Tries (!) to auto-close Stata')
-
+    @argument('-vr', '--version', default=114, help='Version of DTA file to use')
 
 
     @needs_local_scope
@@ -159,9 +159,9 @@ class iPyStataMagic(Magics):
                     else:
                         pass
                 if date_var:
-                    val.to_stata(data_dir, convert_dates= {x:'tc' for x in date_var}, write_index=False)
+                    val.to_stata(data_dir, convert_dates= {x:'tc' for x in date_var}, write_index=False, version=int(args.version))
                 else:
-                    val.to_stata(data_dir, write_index=False)
+                    val.to_stata(data_dir, write_index=False, version=int(args.version))
             else:
                 pass
 

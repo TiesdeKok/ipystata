@@ -37,9 +37,9 @@
     pip install ipystata --upgrade --force-reinstall
 ### **Dependencies**
 Python 2.7 or 3.x  
-IPython 3 or 4 (http://ipython.org/)  
+IPython 3 or 4+ (http://ipython.org/)  
 Pandas **0.17.x +** (http://pandas.pydata.org/) (I recommend to use a distribution like Anaconda)  
-Recent version of Stata (13 / 14 preferably) (http://www.stata.com/)  
+Recent version of Stata (13+ preferably) (http://www.stata.com/)  
 
 <h2 id="setup">Set up IPyStata</h2>
 
@@ -151,6 +151,11 @@ Send a Pandas dataframe to be used in the Stata session (**Both methods**):
 
     -d --data  
     In[1]: %%stata -d dataframe  
+    
+Define the DTA version internally, by default set to 114 (**Both methods**):  
+
+    -vr --version  
+    In[1]: %%stata -d dataframe -vr 118 
 
 Return the dataset from Stata after code execution and load it into a Pandas dataframe (**Both methods**):  
 
