@@ -32,9 +32,15 @@
 ### **You can install IPyStata 0.3.0 using:**
 
     pip install ipystata
-### **You can update a previous installation to 0.3.0 using:**
+    
+Alternative, get 4.X version from Github:
+
+    pip install git+https://github.com/TiesdeKok/ipystata
+   
+### **You can update a previous installation using:**
 
     pip install ipystata --upgrade --force-reinstall
+    
 ### **Dependencies**
 Python 2.7 or 3.x  
 IPython 3 or 4+ (http://ipython.org/)  
