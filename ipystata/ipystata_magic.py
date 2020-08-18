@@ -295,7 +295,7 @@ class iPyStataMagic(Magics):
                     if date_var:
                         val.to_stata(data_dir, convert_dates= {x:'tc' for x in date_var}, write_index=False, version=int(args.version))
                     else:
-                        val.to_stata(data_dir, write_index=False, version=version=int(args.version))
+                        val.to_stata(data_dir, write_index=False, version=int(args.version))
                 except:
                     if date_var:
                         val.to_stata(data_dir, convert_dates= {x:'tc' for x in date_var}, write_index=False, version=118)
