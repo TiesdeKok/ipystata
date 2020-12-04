@@ -27,6 +27,7 @@ import win32com.client
 import psutil
 import atexit
 from datetime import datetime
+import pythoncom;
 
 class iPyStata:
 
@@ -157,6 +158,7 @@ class iPyStataMagic(Magics):
     @argument('-gr', '--graph', action='store_true', default=False, help='Legacy argument. Not active anymore.')
     @argument('-nogr', '--nograph', action='store_true', default=False, help='Prevents graphs from being displayed.')
     @argument('-vr', '--version', default=114, help='Version of DTA file to use')
+    @argument('-rlog', '--returnlog', action='store_true', default=False, help='Return the log as string.')
 
     @needs_local_scope
     @cell_magic
@@ -324,6 +326,7 @@ class iPyStataMagic(Magics):
             pid_before = iPyStata.get_stata_pid()
             time.sleep(0.5)
             self.log_dict[session_id] = os.path.join(self._lib_dir, 'log_%s.txt' % session_id)
+            pythoncom.CoInitialize()
             self.session_dict[session_id] = win32com.client.Dispatch("stata.StataOLEApp")
             self.do_dict[session_id] = self.session_dict[session_id].DoCommandAsync
             self.session_dict[session_id].UtilShowStata(1)
@@ -438,10 +441,16 @@ class iPyStataMagic(Magics):
                 print("The following macros could not be found: %s" % ', '.join(fail_list))
             if len(macro_dict.keys()) > 0:
                 self.shell.push({'macro_dict' : macro_dict})
-                print("Several (%dx) macros have been added to the dictionary: macro_dict" % count_success),
+                if not args.noprint:
+                    print("Several (%dx) macros have been added to the dictionary: macro_dict" % count_success),
 
         with open(self._pid_file, 'w') as pid_text:
             pid_text.write(','.join(map(str, self.pid_list)))
+
+        if args.returnlog:
+            self.shell.push({'stata_log_str' : out})
+            if not args.noprint:
+                print("Stata log has been saved to variable: stata_log_str")
 
         if not args.noprint:
             if args.mata:
