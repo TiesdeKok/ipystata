@@ -9,6 +9,7 @@
 </p>
 
 <p align="center">
+   <b>:warning:Unfortunately, I am unable to maintain this repository in my new role. Issues are not monitored.</b><br><br>
   <strong>IPyStata</strong> enables the use of Stata together with Python via Jupyter (IPython) notebooks. <br> <br>
   <span><strong>Author:</strong> Ties de Kok (<a href="http://www.TiesdeKok.com">Personal Page</a>)</span><br>
   <span><strong>PyPi: </strong><a href="https://pypi.python.org/pypi/ipystata ">https://pypi.python.org/pypi/ipystata </a></span><br>
